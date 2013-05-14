@@ -22,7 +22,7 @@ struct cell
 void drawBoard( struct cell[MAXROWS][MAXCOLUMNS] );
 void determineNextMove( struct cell[MAXROWS][MAXCOLUMNS] );
 enum CELLSTATUS getNextMove( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int column, int row );
-int calculateNeigbors( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int column, int row );
+int calculateNeighbors( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int column, int row );
 
 int main(){
 
@@ -89,7 +89,7 @@ void determineNextMove( struct cell board[MAXROWS][MAXCOLUMNS] ){
 	for( i = 0; i < MAXROWS; i++ ){
 		for( j = 0; j < MAXCOLUMNS; j++ ){
 			board[i][j].state = getNextMove( board[i][j], board, i, j );
-			//printf("%i (%i, %i)\t", board[i][j].state, calculateNeigbors( board[i][j], board, i, j ), getNextMove( board[i][j], board, i, j ));
+			//printf("%i (%i, %i)\t", board[i][j].state, calculateNeighbors( board[i][j], board, i, j ), getNextMove( board[i][j], board, i, j ));
 		}
 
 	printf("\n");
@@ -99,27 +99,27 @@ void determineNextMove( struct cell board[MAXROWS][MAXCOLUMNS] ){
 //http://en.wikipedia.org/wiki/Conway's_Game_of_Life#Rules
 enum CELLSTATUS getNextMove( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int row, int column ){
 
-	int totalNeigbors = 0;
+	int totalNeighbors = 0;
 
-	totalNeigbors = calculateNeigbors( activeIndex, board, row, column );
+	totalNeighbors = calculateNeighbors( activeIndex, board, row, column );
 	if( activeIndex.state == ALIVE ){
 		// Rule 1: Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-		if( totalNeigbors <= 1 ){
+		if( totalNeighbors <= 1 ){
 			return DEAD;
 		}
 
 		// Rule 2: Any live cell with two or three live neighbours lives on to the next generation.
-		if( totalNeigbors == 2 || totalNeigbors == 3){
+		if( totalNeighbors == 2 || totalNeighbors == 3){
 			return ALIVE;
 		}
 
 		// Rule 3: Any live cell with more than three live neighbours dies, as if by overcrowding.
-		if( totalNeigbors > 3){
+		if( totalNeighbors > 3){
 			return DEAD;
 		}
 	}else{
 		// Rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-		if( totalNeigbors == 3){
+		if( totalNeighbors == 3){
 			return ALIVE;
 		}else{
 			return DEAD;
@@ -128,7 +128,7 @@ enum CELLSTATUS getNextMove( struct cell activeIndex, struct cell board[MAXROWS]
 
 	
 }
-int calculateNeigbors( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int row, int column ){
+int calculateNeighbors( struct cell activeIndex, struct cell board[MAXROWS][MAXCOLUMNS], int row, int column ){
 
 	int count = 0;
 	
